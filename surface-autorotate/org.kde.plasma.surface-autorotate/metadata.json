@@ -1,0 +1,23 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "yuli"
+            }
+        ],
+        "Category": "System Information",
+        "Description": "Lock and unlock automatic screen rotation for Microsoft Surface (and other devices with iio-sensor-proxy). When unlocked, the screen follows the accelerometer; when locked, rotation is frozen.",
+        "Description[en_GB]": "Lock and unlock automatic screen rotation for Microsoft Surface (and other devices with iio-sensor-proxy). When unlocked, the screen follows the accelerometer; when locked, rotation is frozen.",
+        "Id": "org.kde.plasma.surface-autorotate",
+        "Icon": "transform-rotate",
+        "License": "GPL-3.0+",
+        "Name": "Surface Auto-Rotate Lock",
+        "Name[en_GB]": "Surface Auto-Rotate Lock",
+        "Version": "1.0.0",
+        "Website": "https://github.com/yuli/surface-autorotate"
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-MainScript": "ui/main.qml"
+}
