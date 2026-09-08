@@ -1,0 +1,16 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [{"Name": "yuli"}],
+        "Category": "System Information",
+        "Description": "Show FreeBSD WiFi (wlan0) status: SSID, IP, channel, association",
+        "FormFactors": ["desktop", "panel"],
+        "Icon": "network-wireless",
+        "Id": "org.kde.freebsdwifi",
+        "License": "BSD-2-Clause",
+        "Name": "FreeBSD WiFi Status"
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-MainScript": "ui/main.qml",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}
