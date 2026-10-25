@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <kcfgfile name=""/>
+    <group name="General">
+        <entry name="autoDetect" type="Bool">
+            <label>Run cover detection automatically while the widget is loaded</label>
+            <default>true</default>
+        </entry>
+        <entry name="pollInterval" type="Int">
+            <label>Seconds between cover-detection polls</label>
+            <default>1</default>
+            <min>1</min>
+            <max>60</max>
+        </entry>
+        <entry name="attachedMode" type="Int">
+            <label>VirtualKeyboardMode when the Type Cover is attached (0=Never, 1=With Touch and Tablet, 2=With Touch, Tablet, and Mouse)</label>
+            <default>2</default>
+            <min>0</min>
+            <max>2</max>
+        </entry>
+        <entry name="detachedMode" type="Int">
+            <label>VirtualKeyboardMode when the Type Cover is detached (0=Never, 1=With Touch and Tablet, 2=With Touch, Tablet, and Mouse)</label>
+            <default>1</default>
+            <min>0</min>
+            <max>2</max>
+        </entry>
+        <entry name="takeOverSystemd" type="Bool">
+            <label>When running Setup, disable the standalone surface-cover-vk.service so the widget manages detection</label>
+            <default>true</default>
+        </entry>
+        <entry name="fcitx5Launcher" type="String">
+            <label>Override path to fcitx5-wayland-launcher (empty = auto-detect)</label>
+            <default></default>
+        </entry>
+        <entry name="plasmaKeyboard" type="String">
+            <label>Override path to plasma-keyboard (empty = auto-detect)</label>
+            <default></default>
+        </entry>
+    </group>
+</kcfg>

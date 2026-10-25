@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# kwin-im-switcher - cover-aware KWin input-method launcher.
+#
+# KWin spawns whatever kwinrc [Wayland] InputMethod points to (this script,
+# registered via a .desktop entry) every time its input method starts or
+# re-spawns. This wrapper then picks:
+#
+#   cover attached  -> fcitx5-wayland-launcher (bridges the running fcitx5
+#                      into KWin's input-method slot, so mozc/rime work on
+#                      the physical keyboard)
+#   cover detached  -> plasma-keyboard (the Plasma touch keyboard)
+#
+# The Surface Cover Virtual Keyboard widget terminates this process whenever
+# the cover state changes, which makes KWin re-spawn it so it re-decides.
+#
+# Binary locations are auto-detected; override with the env vars
+# FCITX5_WAYLAND_LAUNCHER and PLASMA_KEYBOARD if your distro places them
+# somewhere unusual.
+
+set -u
+
+attached() {
+    grep -qis 'type cover' /sys/class/input/input*/name && return 0
+    for d in /sys/bus/usb/devices/*/; do
+        [ -f "${d}idVendor" ] || continue
+        if [ "$(cat "${d}idVendor" 2>/dev/null)" = 045e ] && \
+           [ "$(cat "${d}idProduct" 2>/dev/null)" = 07e8 ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+resolve_fcitx() {
+    [ -n "${FCITX5_WAYLAND_LAUNCHER:-}" ] && { echo "$FCITX5_WAYLAND_LAUNCHER"; return; }
+    local p
+    p="$(command -v fcitx5-wayland-launcher 2>/dev/null || true)"
+    [ -n "$p" ] && { echo "$p"; return; }
+    for p in /usr/libexec/fcitx5-wayland-launcher \
+             /usr/lib/fcitx5-wayland-launcher \
+             /usr/lib/fcitx5/fcitx5-wayland-launcher; do
+        [ -x "$p" ] && { echo "$p"; return; }
+    done
+}
+
+resolve_plasma_kb() {
+    [ -n "${PLASMA_KEYBOARD:-}" ] && { echo "$PLASMA_KEYBOARD"; return; }
+    local p
+    p="$(command -v plasma-keyboard 2>/dev/null || true)"
+    [ -n "$p" ] && { echo "$p"; return; }
+    for p in /usr/bin/plasma-keyboard \
+             /usr/libexec/plasma-keyboard \
+             /usr/lib/plasma-keyboard; do
+        [ -x "$p" ] && { echo "$p"; return; }
+    done
+}
+
+FCITX_LAUNCHER="$(resolve_fcitx)"
+PLASMA_KB="$(resolve_plasma_kb)"
+
+run_fcitx() {
+    if [ -n "$FCITX_LAUNCHER" ] && [ -x "$FCITX_LAUNCHER" ]; then
+        "$FCITX_LAUNCHER" --reopen || true
+        # The launcher may exit after passing the socket; stay alive so KWin
+        # does not respawn us in a loop. Killed by the widget on the next
+        # cover state change, which triggers the re-decision.
+        while :; do sleep 5; done
+    else
+        echo "kwin-im-switcher: fcitx5-wayland-launcher not found" >&2
+        while :; do sleep 5; done
+    fi
+}
+
+run_plasma_kb() {
+    if [ -n "$PLASMA_KB" ] && [ -x "$PLASMA_KB" ]; then
+        exec "$PLASMA_KB"
+    else
+        echo "kwin-im-switcher: plasma-keyboard not found" >&2
+        while :; do sleep 5; done
+    fi
+}
+
+if attached; then
+    run_fcitx
+else
+    run_plasma_kb
+fi

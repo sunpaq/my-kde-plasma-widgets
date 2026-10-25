@@ -1,0 +1,23 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "yuli"
+            }
+        ],
+        "Category": "System Information",
+        "Description": "Auto-detect the Microsoft Surface Type Cover and switch KDE Plasma's virtual keyboard / input method accordingly. When the cover is attached, uses Fcitx 5 (so mozc/rime work on the physical keyboard) and VirtualKeyboardMode 'With Touch, Tablet, and Mouse'. When detached, uses the Plasma touch keyboard and VirtualKeyboardMode 'With Touch and Tablet'. Includes a one-time setup helper that installs the cover-aware KWin input-method switcher.",
+        "Description[en_GB]": "Auto-detect the Microsoft Surface Type Cover and switch KDE Plasma's virtual keyboard / input method accordingly. When the cover is attached, uses Fcitx 5 (so mozc/rime work on the physical keyboard) and VirtualKeyboardMode 'With Touch, Tablet, and Mouse'. When detached, uses the Plasma touch keyboard and VirtualKeyboardMode 'With Touch and Tablet'. Includes a one-time setup helper that installs the cover-aware KWin input-method switcher.",
+        "Id": "org.kde.plasma.surface-cover-vk",
+        "Icon": "input-keyboard-virtual",
+        "License": "GPL-3.0+",
+        "Name": "Surface Cover Virtual Keyboard",
+        "Name[en_GB]": "Surface Cover Virtual Keyboard",
+        "Version": "1.0.0",
+        "Website": "https://github.com/yuli/my-kde-plasma-widgets"
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-MainScript": "ui/main.qml"
+}
